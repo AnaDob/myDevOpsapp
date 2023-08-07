@@ -2,7 +2,6 @@
 #
 # lavagna launcher
 #
-#
 # As a default, it will launch the application in dev mode for testing purpose. You will need to customize this script.
 #
 # Database choice:
