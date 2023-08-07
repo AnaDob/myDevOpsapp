@@ -1,16 +1,21 @@
 pipeline {
     agent any
-stages {
-stage('Clone Repository') {
+    stages {
+        stage('Clone Repository') {
             steps {
                 deleteDir()
                 checkout scm
             }
         }
-stage ('Build') {
-    withMaven {
-      sh "mvn clean verify"
-    }
+
+        stage ('Build') {
+            steps {
+                withMaven {
+                    sh "mvn clean verify"
+                }
+            }
+        }
+
         stage('Build and Run') {
             steps {
                 script {
@@ -19,6 +24,6 @@ stage ('Build') {
                 }
             }
         }
-  }
+    }
 }
-}
+
