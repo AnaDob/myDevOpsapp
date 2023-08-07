@@ -4,19 +4,7 @@ pipeline {
         maven 'Maven 3.3.9'
         jdk 'jdk8'
     }
-    stages {
-        stage ('Install Java and Maven') {
-            steps {
-                script {
-                    // Install Java 8
-                    sh 'sudo apt-get update'
-                    sh 'sudo apt-get install openjdk-8-jdk -y'
 
-                    // Install Maven
-                    sh 'sudo apt-get install maven -y'
-                }
-            }
-        }
 
         stage ('Initialize') {
             steps {
