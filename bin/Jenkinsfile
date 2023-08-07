@@ -2,6 +2,19 @@ pipeline {
     agent any
 
     stages {
+        stage('Install Java and Maven') {
+            steps {
+                script {
+                    // Install Java 8
+                    sh 'sudo apt-get update'
+                    sh 'sudo apt-get install openjdk-8-jdk -y'
+
+                    // Install Maven
+                    sh 'sudo apt-get install maven -y'
+                }
+            }
+        }
+
         stage('Clone Repository') {
             steps {
                 deleteDir()
@@ -19,4 +32,3 @@ pipeline {
         }
     }
 }
- 
