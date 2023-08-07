@@ -59,7 +59,7 @@
 # example: java -jar lavagna-jetty-console.war --port 8081 --bindAddress 127.0.0.1
 #
 # example: java -Dlavagna.config.location=file:/opt.. -jar lavagna-jetty-console.war --port 8081 --bindAddress 127.0.0.1
-
+ 
 BASEDIR=$(dirname $0)
 
 java \
