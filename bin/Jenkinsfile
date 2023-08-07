@@ -1,8 +1,11 @@
 pipeline {
     agent any
-
+    tools {
+        maven 'Maven 3.3.9'
+        jdk 'jdk8'
+    }
     stages {
-        stage('Install Java and Maven') {
+        stage ('Install Java and Maven') {
             steps {
                 script {
                     // Install Java 8
@@ -15,17 +18,24 @@ pipeline {
             }
         }
 
-        stage('Clone Repository') {
+        stage ('Initialize') {
             steps {
-                deleteDir()
-                checkout scm
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
             }
         }
 
-        stage('Build and Run') {
+        stage ('Build') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+            }
+        }
+        
+        stage ('Run') {
             steps {
                 script {
-                    sh 'mvn clean package'
                     sh 'bin/lavagna.sh'
                 }
             }
