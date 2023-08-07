@@ -1,22 +1,24 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven 3.3.9'
-    }
 
-        stage ('Build') {
+    stages {
+        stage('Clone Repository') {
             steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+                deleteDir()
+                checkout scm
             }
         }
-         
-        stage ('Run') {
+
+        stage('Build and Run') {
             steps {
                 script {
+                    sh 'mvn clean package'
                     sh 'bin/lavagna.sh'
                 }
             }
         }
     }
+}
+
 
 
