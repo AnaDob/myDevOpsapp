@@ -2,37 +2,42 @@ pipeline {
     agent any
     
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                script {
-                    def repositoryUrl = 'https://github.com/AnaDob/myDevOpsapp.git'
-                    def repoDir = 'myDevOpsapp'
-                    
-                    // Clean up existing directory
-                    deleteDir()
-                    
-                    // Clone the repository
-                    git url: repositoryUrl, branch: 'main', directory: repoDir
-                }
+                // Checkout the source code from GitHub
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], 
+                          userRemoteConfigs: [[url: 'https://github.com/AnaDob/myDevOpsapp.git']]])
             }
         }
         
-        stage('Build and Execute') {
+        stage('Build') {
             steps {
-                dir("${repoDir}/main/bin") {
-                    script {
-                        // Execute the lavagna.sh script
-                        sh './lavagna.sh'
-                    }
-                }
+                // Build the app by executing bin/lavagna.sh
+                sh 'chmod +x bin/lavagna.sh'
+                sh 'bin/lavagna.sh'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                // Run tests using Maven (you can replace this with your test command)
+                sh 'mvn test'
             }
         }
     }
     
     post {
         always {
-            // Clean up workspace
-            cleanWs()
+            // Clean up steps if necessary
+            echo 'Performing cleanup...'
+        }
+        success {
+            // Actions to perform when the pipeline succeeds
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            // Actions to perform when the pipeline fails
+            echo 'Pipeline failed!'
         }
     }
 }
